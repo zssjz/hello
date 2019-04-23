@@ -1,5 +1,6 @@
 package com.jason.components.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.*;
 
 import javax.persistence.*;
@@ -37,7 +38,7 @@ public class CityDO {
     @Column(name = "ELEVATION", precision = 5)
     private Integer elevation;
 
-    @ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @JoinColumn(name = "NATION_ID")
     private NationDO nationDO;
 

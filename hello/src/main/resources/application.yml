@@ -16,5 +16,5 @@ spring:
     properties:
       hibernate:
         dialect: com.jason.config.MySQL5TableType
-    open-in-view: true
+#    open-in-view: true
 #        enable_lazy_load_no_trans: true

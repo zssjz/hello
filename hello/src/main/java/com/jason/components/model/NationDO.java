@@ -1,5 +1,6 @@
 package com.jason.components.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.*;
 
 import javax.persistence.*;
@@ -31,26 +32,20 @@ public class NationDO {
     @Column(name = "LOCATION")
     private String location;
 
-//    @Column(name = "planet")
-//    private String planet;
-//
-//    @Column(name = "PLANET_TYPE_ID", length = 32)
-//    private String planetTypeId;
-
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "nationDO")
     private Set<CityDO> cities;
-
-//    @Column(name = "GALAXY")
-//    private String galaxy;
-//
-//    @Column(name = "GALAXY_ORDER")
-//    private String galaxyOrder;
 
 
     public NationDO() {
     }
 
-    public NationDO(String nationId, String nationNameCN, String nationNameEN, String location, Set<CityDO> cities) {
+    public NationDO(String nationNameCN, String nationNameEN, String location) {
+        this.nationNameCN = nationNameCN;
+        this.nationNameEN = nationNameEN;
+        this.location = location;
+    }
+
+        public NationDO(String nationId, String nationNameCN, String nationNameEN, String location, Set<CityDO> cities) {
         this.nationId = nationId;
         this.nationNameCN = nationNameCN;
         this.nationNameEN = nationNameEN;
@@ -64,16 +59,6 @@ public class NationDO {
         this.location = location;
         this.cities = cities;
     }
-
-//    public NationDO(String nationId, String nationNameCN, String nationNameEN, String location, Set<CityDO> cities) {
-//        this.nationId = nationId;
-//        this.nationNameCN = nationNameCN;
-//        this.nationNameEN = nationNameEN;
-//        this.location = location;
-//        this.cities = cities;
-//    }
-
-
 
     public String getNationId() {
         return nationId;
