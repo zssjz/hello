@@ -3,6 +3,7 @@ package com.jason.components.service.impl;
 import com.jason.HelloApplication;
 import com.jason.components.model.CityDO;
 import com.jason.components.model.NationDO;
+import com.jason.components.model.dto.CityDTO;
 import com.jason.components.service.CityService;
 import com.jason.dto.MessageDTO;
 import org.junit.Test;
@@ -28,8 +29,8 @@ public class CityServiceImplTest {
         NationDO nationDO = new NationDO();
         nationDO.setNationId("2c90c0646a2fdfb7016a2fdfdfe60000");
         CityDO cityDO = new CityDO();
-        cityDO.setCityNameCN("北京");
-        cityDO.setCityNameEN("Beijing");
+        cityDO.setCityNameCN("深圳");
+        cityDO.setCityNameEN("Shenzhen");
         cityDO.setNationDO(nationDO);
         MessageDTO msg = cityService.saveCity(cityDO);
         System.out.println(msg);
@@ -46,5 +47,12 @@ public class CityServiceImplTest {
         MessageDTO msg = cityService.queryCityInfo("2c90c0646a2ff5ba016a2ff5cfea0000");
         System.out.println(msg);
     }
+
+    @Test
+    public void findCitiesInfo() throws Exception {
+        MessageDTO msg = cityService.findCitiesInfo(new CityDTO());
+        System.out.println(msg);
+    }
+
 
 }

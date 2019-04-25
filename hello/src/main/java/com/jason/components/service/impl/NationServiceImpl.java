@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created by BNC on 2019/4/18.
  */
@@ -38,6 +40,7 @@ public class NationServiceImpl implements NationService {
         MessageDTO msg = null;
         try {
             NationDO nationDO = nationRepository.getOne(nationId);
+//            List<NationDO> list = nationRepository.findAll();
             msg = new MessageDTO(1, HttpStatus.OK.value(), "OK", nationDO);
         } catch (Exception e) {
             logger.error(e.getMessage());

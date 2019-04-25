@@ -8,6 +8,9 @@ import com.jason.dto.MessageDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -63,6 +66,31 @@ public class CityServiceImpl implements CityService {
             msg = new MessageDTO(1, HttpStatus.OK.value(), "OK", cityDO);
         } catch (Exception e) {
             logger.error(e.getMessage());
+            msg = new MessageDTO(0, HttpStatus.INTERNAL_SERVER_ERROR.value(), "ERROR");
+        }
+        return msg;
+    }
+
+    @Override
+    public MessageDTO findCitiesInfo(CityDTO cityDTO) {
+        MessageDTO msg = null;
+        try {
+            int page = 1;
+            int size = 10;
+            if (cityDTO != null) {
+                int pageParam = cityDTO.getPageNum();
+                int paramSize = cityDTO.getPageSize();
+                if (pageParam > 0) {
+                    page = pageParam;
+                }
+                if (paramSize > 0) {
+                    size = paramSize;
+                }
+            }
+            Pageable pageable = PageRequest.of(page, size);
+            Page<CityDO> cities = cityRepository.findAll(pageable);
+            msg = new MessageDTO(1, HttpStatus.OK.value(), "OK", cities);
+        } catch (Exception e) {
             msg = new MessageDTO(0, HttpStatus.INTERNAL_SERVER_ERROR.value(), "ERROR");
         }
         return msg;

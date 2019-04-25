@@ -13,8 +13,10 @@ spring:
     hibernate:
       ddl-auto: update
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+#    open-in-view: true
     properties:
       hibernate:
         dialect: com.jason.config.MySQL5TableType
-#    open-in-view: true
-#        enable_lazy_load_no_trans: true
+        enable_lazy_load_no_trans: true
+
+

@@ -26,23 +26,29 @@ public class CityDTO {
 
     private int elevation;
 
+    private String nationId;
+
     private String nationNameCN;
+
+    private String nationNameEN;
 
     private String cityDescription;
 
     public CityDTO() {
     }
 
-    public CityDTO(int pageSize, int pageNum, String cityId, String cityNameCN, String cityNameEN, BigDecimal longitude, BigDecimal latitude, int elevation, String nationNameCN, String cityDescription) {
+    public CityDTO(int pageSize, int pageNum, String cityId, String cityNameCN, String cityNameEN, String longitude, String latitude, int elevation, String nationId, String nationNameCN, String nationNameEN, String cityDescription) {
         this.pageSize = pageSize;
         this.pageNum = pageNum;
         this.cityId = cityId;
         this.cityNameCN = cityNameCN;
         this.cityNameEN = cityNameEN;
-        this.longitude = transformValue(longitude);
-        this.latitude = transformValue(latitude);
+        this.longitude = longitude;
+        this.latitude = latitude;
         this.elevation = elevation;
+        this.nationId = nationId;
         this.nationNameCN = nationNameCN;
+        this.nationNameEN = nationNameEN;
         this.cityDescription = cityDescription;
     }
 
@@ -126,6 +132,22 @@ public class CityDTO {
         this.cityDescription = cityDescription;
     }
 
+    public String getNationNameCN() {
+        return nationNameCN;
+    }
+
+    public void setNationNameCN(String nationNameCN) {
+        this.nationNameCN = nationNameCN;
+    }
+
+    public String getNationNameEN() {
+        return nationNameEN;
+    }
+
+    public void setNationNameEN(String nationNameEN) {
+        this.nationNameEN = nationNameEN;
+    }
+
     @Override
     public String toString() {
         return "CityDTO{" +
@@ -134,10 +156,12 @@ public class CityDTO {
                 ", cityId='" + cityId + '\'' +
                 ", cityNameCN='" + cityNameCN + '\'' +
                 ", cityNameEN='" + cityNameEN + '\'' +
-                ", longitude=" + longitude +
-                ", latitude=" + latitude +
+                ", longitude='" + longitude + '\'' +
+                ", latitude='" + latitude + '\'' +
                 ", elevation=" + elevation +
+                ", nationId='" + nationId + '\'' +
                 ", nationNameCN='" + nationNameCN + '\'' +
+                ", nationNameEN='" + nationNameEN + '\'' +
                 ", cityDescription='" + cityDescription + '\'' +
                 '}';
     }

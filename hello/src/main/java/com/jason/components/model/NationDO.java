@@ -1,5 +1,6 @@
 package com.jason.components.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.*;
 
@@ -32,9 +33,8 @@ public class NationDO {
     @Column(name = "LOCATION")
     private String location;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "nationDO")
-    private Set<CityDO> cities;
-
+//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "nationDO")
+//    private Set<CityDO> cities;
 
     public NationDO() {
     }
@@ -45,20 +45,20 @@ public class NationDO {
         this.location = location;
     }
 
-        public NationDO(String nationId, String nationNameCN, String nationNameEN, String location, Set<CityDO> cities) {
-        this.nationId = nationId;
-        this.nationNameCN = nationNameCN;
-        this.nationNameEN = nationNameEN;
-        this.location = location;
-        this.cities = cities;
-    }
-
-    public NationDO(String nationNameCN, String nationNameEN, String location, Set<CityDO> cities) {
-        this.nationNameCN = nationNameCN;
-        this.nationNameEN = nationNameEN;
-        this.location = location;
-        this.cities = cities;
-    }
+//    public NationDO(String nationId, String nationNameCN, String nationNameEN, String location, Set<CityDO> cities) {
+//        this.nationId = nationId;
+//        this.nationNameCN = nationNameCN;
+//        this.nationNameEN = nationNameEN;
+//        this.location = location;
+//        this.cities = cities;
+//    }
+//
+//    public NationDO(String nationNameCN, String nationNameEN, String location, Set<CityDO> cities) {
+//        this.nationNameCN = nationNameCN;
+//        this.nationNameEN = nationNameEN;
+//        this.location = location;
+//        this.cities = cities;
+//    }
 
     public String getNationId() {
         return nationId;
@@ -92,13 +92,13 @@ public class NationDO {
         this.location = location;
     }
 
-    public Set<CityDO> getCities() {
-        return cities;
-    }
-
-    public void setCities(Set<CityDO> cities) {
-        this.cities = cities;
-    }
+//    public Set<CityDO> getCities() {
+//        return cities;
+//    }
+//
+//    public void setCities(Set<CityDO> cities) {
+//        this.cities = cities;
+//    }
 
     @Override
     public String toString() {
@@ -107,7 +107,7 @@ public class NationDO {
                 ", nationNameCN='" + nationNameCN + '\'' +
                 ", nationNameEN='" + nationNameEN + '\'' +
                 ", location='" + location + '\'' +
-                ", cities=" + cities +
+//                ", cities=" + cities +
                 '}';
     }
 }

@@ -1,6 +1,6 @@
 package com.jason.components.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.*;
 import org.hibernate.annotations.*;
 
 import javax.persistence.*;
@@ -15,6 +15,7 @@ import java.util.Set;
 @Entity
 @javax.persistence.Table(name = "basic_city")
 @org.hibernate.annotations.Table(appliesTo = "basic_city", comment = "城市基本信息")
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "cityId")
 public class CityDO {
 
     @Id
@@ -38,7 +39,8 @@ public class CityDO {
     @Column(name = "ELEVATION", precision = 5)
     private Integer elevation;
 
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
+    @JsonIgnoreProperties(value = {"location"})
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinColumn(name = "NATION_ID")
     private NationDO nationDO;
 

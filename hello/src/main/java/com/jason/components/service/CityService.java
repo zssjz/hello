@@ -1,6 +1,7 @@
 package com.jason.components.service;
 
 import com.jason.components.model.CityDO;
+import com.jason.components.model.dto.CityDTO;
 import com.jason.dto.MessageDTO;
 
 import java.util.List;
@@ -37,5 +38,12 @@ public interface CityService {
      * @return
      */
     MessageDTO queryCityInfo(String cityId);
+
+    /**
+     * 条件获取多条城市信息
+     * @param cityDTO
+     * @return
+     */
+    MessageDTO findCitiesInfo(CityDTO cityDTO);
 
 }
