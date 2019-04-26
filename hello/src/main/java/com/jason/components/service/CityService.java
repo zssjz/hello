@@ -46,4 +46,11 @@ public interface CityService {
      */
     MessageDTO findCitiesInfo(CityDTO cityDTO);
 
+    /**
+     * 注解测试
+     * @param cityDO
+     * @return
+     */
+    MessageDTO findCitiesInfo(CityDO cityDO);
+
 }

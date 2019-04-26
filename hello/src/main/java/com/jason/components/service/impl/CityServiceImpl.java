@@ -8,6 +8,7 @@ import com.jason.dto.MessageDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by BNC on 2019/4/18.
@@ -32,10 +34,10 @@ public class CityServiceImpl implements CityService {
         MessageDTO msg = null;
         try {
             CityDO result = cityRepository.save(cityDO);
-            msg = new MessageDTO(1, HttpStatus.OK.value(), "OK", result);
+            msg = new MessageDTO(1, HttpStatus.OK, "OK", result);
         } catch (Exception e) {
             logger.error(e.getMessage());
-            msg = new MessageDTO(0, HttpStatus.INTERNAL_SERVER_ERROR.value(), "ERROR");
+            msg = new MessageDTO(0, HttpStatus.INTERNAL_SERVER_ERROR, "ERROR");
         }
         return msg;
     }
@@ -50,10 +52,10 @@ public class CityServiceImpl implements CityService {
         MessageDTO msg = null;
         try {
             cityRepository.deleteById(cityId);
-            msg = new MessageDTO(1, HttpStatus.OK.value(), "OK");
+            msg = new MessageDTO(1, HttpStatus.OK, "OK");
         } catch (Exception e) {
             logger.error(e.getMessage());
-            msg = new MessageDTO(0, HttpStatus.INTERNAL_SERVER_ERROR.value(), "ERROR");
+            msg = new MessageDTO(0, HttpStatus.INTERNAL_SERVER_ERROR, "ERROR");
         }
         return msg;
     }
@@ -62,11 +64,13 @@ public class CityServiceImpl implements CityService {
     public MessageDTO queryCityInfo(String cityId) {
         MessageDTO msg = null;
         try {
-            CityDO cityDO = cityRepository.getOne(cityId);
-            msg = new MessageDTO(1, HttpStatus.OK.value(), "OK", cityDO);
+            // getOne是返回一个实体的引用——代理对象，findOne是返回实体。
+//            CityDO cityDO = cityRepository.getOne(cityId);
+            Optional<CityDO> cityDO = cityRepository.findById(cityId);
+            msg = new MessageDTO(1, HttpStatus.OK, "OK", cityDO);
         } catch (Exception e) {
             logger.error(e.getMessage());
-            msg = new MessageDTO(0, HttpStatus.INTERNAL_SERVER_ERROR.value(), "ERROR");
+            msg = new MessageDTO(0, HttpStatus.INTERNAL_SERVER_ERROR, "ERROR");
         }
         return msg;
     }
@@ -89,9 +93,35 @@ public class CityServiceImpl implements CityService {
             }
             Pageable pageable = PageRequest.of(page, size);
             Page<CityDO> cities = cityRepository.findAll(pageable);
-            msg = new MessageDTO(1, HttpStatus.OK.value(), "OK", cities);
+            msg = new MessageDTO(1, HttpStatus.OK, "OK", cities);
         } catch (Exception e) {
-            msg = new MessageDTO(0, HttpStatus.INTERNAL_SERVER_ERROR.value(), "ERROR");
+            msg = new MessageDTO(0, HttpStatus.INTERNAL_SERVER_ERROR, "ERROR");
+        }
+        return msg;
+    }
+
+    @Override
+    public MessageDTO findCitiesInfo(CityDO cityDO) {
+        MessageDTO msg = null;
+        try {
+            int page = 1;
+            int size = 10;
+            if (cityDO != null) {
+                int pageParam = cityDO.getPageNum();
+                int paramSize = cityDO.getPageSize();
+                if (pageParam > 0) {
+                    page = pageParam;
+                }
+                if (paramSize > 0) {
+                    size = paramSize;
+                }
+            }
+            Pageable pageable = PageRequest.of(page, size);
+            Example<CityDO> example = Example.of(cityDO);
+            Page<CityDO> cities = cityRepository.findAll(example, pageable);
+            msg = new MessageDTO(1, HttpStatus.OK, "OK", cities);
+        } catch (Exception e) {
+            msg = new MessageDTO(0, HttpStatus.INTERNAL_SERVER_ERROR, "ERROR");
         }
         return msg;
     }

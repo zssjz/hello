@@ -17,6 +17,6 @@ spring:
     properties:
       hibernate:
         dialect: com.jason.config.MySQL5TableType
-        enable_lazy_load_no_trans: true
+#        enable_lazy_load_no_trans: true
 
 

@@ -3,6 +3,7 @@ package com.jason.components;
 import com.jason.dto.MessageDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,7 +23,7 @@ public class FilesController {
     public MessageDTO imageUpload(MultipartFile file) {
         MessageDTO msg = null;
         if (file.isEmpty()) {
-            return new MessageDTO(0, 200, "上传文件为空");
+            return new MessageDTO(0, HttpStatus.NO_CONTENT, "WARNING");
         }
         String fileName = file.getName();
         StringBuffer path = new StringBuffer();

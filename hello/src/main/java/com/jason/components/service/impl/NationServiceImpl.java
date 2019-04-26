@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by BNC on 2019/4/18.
@@ -28,23 +29,29 @@ public class NationServiceImpl implements NationService {
         MessageDTO msg = null;
         try {
             NationDO result = nationRepository.save(nationDO);
-            msg = new MessageDTO(1, HttpStatus.OK.value(), "OK", result);
+            msg = new MessageDTO(1, HttpStatus.OK, "OK", result);
         } catch (Exception e) {
-            msg = new MessageDTO(0, HttpStatus.INTERNAL_SERVER_ERROR.value(), "ERROR");
+            msg = new MessageDTO(0, HttpStatus.INTERNAL_SERVER_ERROR, "ERROR");
         }
         return msg;
     }
 
+    /**
+     *
+     * @param nationId
+     * @return
+     */
     @Override
     public MessageDTO queryNation(String nationId) {
         MessageDTO msg = null;
         try {
-            NationDO nationDO = nationRepository.getOne(nationId);
-//            List<NationDO> list = nationRepository.findAll();
-            msg = new MessageDTO(1, HttpStatus.OK.value(), "OK", nationDO);
+            // getOne是返回一个实体的引用——代理对象，findOne是返回实体。
+//            NationDO nationDO = nationRepository.getOne(nationId);
+            Optional<NationDO> nationDO = nationRepository.findById(nationId);
+            msg = new MessageDTO(1, HttpStatus.OK, "OK", nationDO);
         } catch (Exception e) {
             logger.error(e.getMessage());
-            msg = new MessageDTO(0, HttpStatus.INTERNAL_SERVER_ERROR.value(), "ERROR");
+            msg = new MessageDTO(0, HttpStatus.INTERNAL_SERVER_ERROR, "ERROR");
         }
         return msg;
     }

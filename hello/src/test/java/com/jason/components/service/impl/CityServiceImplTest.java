@@ -29,8 +29,8 @@ public class CityServiceImplTest {
         NationDO nationDO = new NationDO();
         nationDO.setNationId("2c90c0646a2fdfb7016a2fdfdfe60000");
         CityDO cityDO = new CityDO();
-        cityDO.setCityNameCN("深圳");
-        cityDO.setCityNameEN("Shenzhen");
+        cityDO.setCityNameCN("杭州");
+        cityDO.setCityNameEN("Hangzhou");
         cityDO.setNationDO(nationDO);
         MessageDTO msg = cityService.saveCity(cityDO);
         System.out.println(msg);
@@ -51,6 +51,12 @@ public class CityServiceImplTest {
     @Test
     public void findCitiesInfo() throws Exception {
         MessageDTO msg = cityService.findCitiesInfo(new CityDTO());
+        System.out.println(msg);
+    }
+
+    @Test
+    public void interfaceTest() throws Exception {
+        MessageDTO msg = cityService.findCitiesInfo(new CityDO());
         System.out.println(msg);
     }
 

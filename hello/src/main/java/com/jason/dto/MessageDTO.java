@@ -1,7 +1,10 @@
 package com.jason.dto;
 
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,28 +15,29 @@ public class MessageDTO {
 
     private int status;
 
-    private int code;
+    @Enumerated(value = EnumType.STRING)
+    private HttpStatus httpStatus;
 
     private String info;
 
     private Object object;
 
-    public MessageDTO(int status, int code, String info) {
+    public MessageDTO(int status, HttpStatus httpStatus, String info) {
         this.status = status;
-        this.code = code;
+        this.httpStatus = httpStatus;
         this.info = info;
     }
 
-    public MessageDTO(int status, int code, String info, Object object) {
+    public MessageDTO(int status, HttpStatus httpStatus, String info, Object object) {
         this.status = status;
-        this.code = code;
+        this.httpStatus = httpStatus;
         this.info = info;
         this.object = object;
     }
 
-    public MessageDTO(int status, int code, String info, Page page) {
+    public MessageDTO(int status, HttpStatus httpStatus, String info, Page page) {
         this.status = status;
-        this.code = code;
+        this.httpStatus = httpStatus;
         this.info = info;
         Map<String, Object> map = new HashMap<>();
         map.put("pageSize", page.getSize());
@@ -52,12 +56,12 @@ public class MessageDTO {
         this.status = status;
     }
 
-    public int getCode() {
-        return code;
+    public HttpStatus getHttpStatus() {
+        return httpStatus;
     }
 
-    public void setCode(int code) {
-        this.code = code;
+    public void setHttpStatus(HttpStatus httpStatus) {
+        this.httpStatus = httpStatus;
     }
 
     public String getInfo() {
@@ -80,7 +84,7 @@ public class MessageDTO {
     public String toString() {
         return "MessageDTO{" +
                 "status=" + status +
-                ", code=" + code +
+                ", httpStatus=" + httpStatus +
                 ", info='" + info + '\'' +
                 ", object=" + object +
                 '}';
