@@ -31,7 +31,7 @@ public class CityServiceImpl implements CityService {
 
     @Override
     public MessageDTO saveCity(CityDO cityDO) {
-        MessageDTO msg = null;
+        MessageDTO msg;
         try {
             CityDO result = cityRepository.save(cityDO);
             msg = new MessageDTO(1, HttpStatus.OK, "OK", result);
@@ -49,7 +49,7 @@ public class CityServiceImpl implements CityService {
 
     @Override
     public MessageDTO deleteCity(String cityId) {
-        MessageDTO msg = null;
+        MessageDTO msg;
         try {
             cityRepository.deleteById(cityId);
             msg = new MessageDTO(1, HttpStatus.OK, "OK");
@@ -62,7 +62,7 @@ public class CityServiceImpl implements CityService {
 
     @Override
     public MessageDTO queryCityInfo(String cityId) {
-        MessageDTO msg = null;
+        MessageDTO msg;
         try {
             // getOne是返回一个实体的引用——代理对象，findOne是返回实体。
 //            CityDO cityDO = cityRepository.getOne(cityId);
@@ -77,7 +77,7 @@ public class CityServiceImpl implements CityService {
 
     @Override
     public MessageDTO findCitiesInfo(CityDTO cityDTO) {
-        MessageDTO msg = null;
+        MessageDTO msg;
         try {
             int page = 1;
             int size = 10;
@@ -102,7 +102,7 @@ public class CityServiceImpl implements CityService {
 
     @Override
     public MessageDTO findCitiesInfo(CityDO cityDO) {
-        MessageDTO msg = null;
+        MessageDTO msg;
         try {
             int page = 1;
             int size = 10;

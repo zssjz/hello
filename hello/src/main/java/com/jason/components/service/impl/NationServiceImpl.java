@@ -26,7 +26,7 @@ public class NationServiceImpl implements NationService {
 
     @Override
     public MessageDTO saveNation(NationDO nationDO) {
-        MessageDTO msg = null;
+        MessageDTO msg;
         try {
             NationDO result = nationRepository.save(nationDO);
             msg = new MessageDTO(1, HttpStatus.OK, "OK", result);
@@ -43,7 +43,7 @@ public class NationServiceImpl implements NationService {
      */
     @Override
     public MessageDTO queryNation(String nationId) {
-        MessageDTO msg = null;
+        MessageDTO msg;
         try {
             // getOne是返回一个实体的引用——代理对象，findOne是返回实体。
 //            NationDO nationDO = nationRepository.getOne(nationId);
