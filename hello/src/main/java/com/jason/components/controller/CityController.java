@@ -35,7 +35,7 @@ public class CityController {
         if (cityId == null || "".equals(cityId)) {
             return new MessageDTO(0, HttpStatus.BAD_REQUEST, "WARNING");
         }
-        MessageDTO msg = null;
+        MessageDTO msg;
         try {
             msg = cityService.queryCityInfo(cityId);
         } catch (Exception e) {
@@ -55,7 +55,7 @@ public class CityController {
             });
             return new MessageDTO(0, HttpStatus.BAD_REQUEST, new String(stringBuffer));
         }
-        MessageDTO msg = null;
+        MessageDTO msg;
         try {
             msg = cityService.findCitiesInfo(cityDO);
         } catch (Exception e) {

@@ -74,7 +74,7 @@ public class CityDO {
     private Integer elevation;
 
     @JsonIgnoreProperties(value = {"location"})
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "NATION_ID")
     private NationDO nationDO;
 

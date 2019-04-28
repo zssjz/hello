@@ -79,17 +79,15 @@ public class CityServiceImpl implements CityService {
     public MessageDTO findCitiesInfo(CityDTO cityDTO) {
         MessageDTO msg;
         try {
-            int page = 1;
+            int page = 0;
             int size = 10;
-            if (cityDTO != null) {
-                int pageParam = cityDTO.getPageNum();
-                int paramSize = cityDTO.getPageSize();
-                if (pageParam > 0) {
-                    page = pageParam;
-                }
-                if (paramSize > 0) {
-                    size = paramSize;
-                }
+            int pageParam = cityDTO.getPageNum();
+            int paramSize = cityDTO.getPageSize();
+            if (pageParam > 0) {
+                page = pageParam - 1;
+            }
+            if (paramSize > 0) {
+                size = paramSize;
             }
             Pageable pageable = PageRequest.of(page, size);
             Page<CityDO> cities = cityRepository.findAll(pageable);
@@ -104,17 +102,15 @@ public class CityServiceImpl implements CityService {
     public MessageDTO findCitiesInfo(CityDO cityDO) {
         MessageDTO msg;
         try {
-            int page = 1;
+            int page = 0;
             int size = 10;
-            if (cityDO != null) {
-                int pageParam = cityDO.getPageNum();
-                int paramSize = cityDO.getPageSize();
-                if (pageParam > 0) {
-                    page = pageParam;
-                }
-                if (paramSize > 0) {
-                    size = paramSize;
-                }
+            int pageParam = cityDO.getPageNum();
+            int paramSize = cityDO.getPageSize();
+            if (pageParam > 0) {
+                page = pageParam - 1;
+            }
+            if (paramSize > 0) {
+                size = paramSize;
             }
             Pageable pageable = PageRequest.of(page, size);
             Example<CityDO> example = Example.of(cityDO);
