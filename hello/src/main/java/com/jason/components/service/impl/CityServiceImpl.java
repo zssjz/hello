@@ -69,6 +69,7 @@ public class CityServiceImpl implements CityService {
             Optional<CityDO> cityDO = cityRepository.findById(cityId);
             msg = new MessageDTO(1, HttpStatus.OK, "OK", cityDO);
         } catch (Exception e) {
+            e.printStackTrace();
             logger.error(e.getMessage());
             msg = new MessageDTO(0, HttpStatus.INTERNAL_SERVER_ERROR, "ERROR");
         }

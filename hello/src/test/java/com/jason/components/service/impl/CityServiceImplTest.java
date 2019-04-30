@@ -31,7 +31,7 @@ public class CityServiceImplTest {
         CityDO cityDO = new CityDO();
         cityDO.setCityNameCN("杭州");
         cityDO.setCityNameEN("Hangzhou");
-        cityDO.setNationDO(nationDO);
+//        cityDO.setNationDO(nationDO);
         MessageDTO msg = cityService.saveCity(cityDO);
         System.out.println(msg);
     }

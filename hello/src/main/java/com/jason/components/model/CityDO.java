@@ -1,6 +1,8 @@
 package com.jason.components.model;
 
 import com.fasterxml.jackson.annotation.*;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.annotations.*;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.*;
@@ -21,8 +23,8 @@ import java.math.BigDecimal;
  * -@javax.persistence.Table 修改默认ORM规则，设置表名
  * -@org.hibernate.annotations.Table 建表时的描述
  * -@Id 设置表主键
- * -@GenericGenerator 设置主键策略
- * -@GeneratedValue 设置主键值
+ * -@GenericGenerator 自定义主键生成策略
+ * -@GeneratedValue JPA策略生成器
  * -@Column 修改默认ORM规则，设置字段名称，长度，以及自定义字段注释等
  * -@NotBlank 针对String类型的校验以及String.trim()后的校验
  * -@Length 设置字段长度校验规则
@@ -34,6 +36,7 @@ import java.math.BigDecimal;
  * 
  * Created by BNC on 2019/4/16.
  */
+@ApiModel(value = "城市信息")
 @Validated
 @Entity
 @javax.persistence.Table(name = "basic_city")
@@ -46,7 +49,7 @@ public class CityDO {
 
     public interface CitySimpleValidate {};
 
-    public interface CityDetailValidate extends CitySimpleValidate {};
+    public interface CityDetailValidate {};
 
     @Id
     @GenericGenerator(name = "idGenerator", strategy = "uuid")
@@ -54,35 +57,41 @@ public class CityDO {
     @Column(name = "CITY_ID", length = 32)
     private String cityId;
 
+    @ApiModelProperty(value = "cityNameCN", name = "名称（中文）", dataType = "String")
     @NotBlank(message = "城市名称（中文）不能为空", groups = CitySimpleValidate.class)
     @Length(max = 255, message = "请限制在255个字符以内", groups = CitySimpleValidate.class)
     @Column(name = "CITY_NAME_CN", columnDefinition = "VARCHAR(255) NOT NULL COMMENT '名称（中文）'")
     private String cityNameCN;
 
+    @ApiModelProperty(value = "cityNameEN", name = "名称（英文）", dataType = "String")
     @NotBlank(message = "城市名称（英文）不能为空", groups = CitySimpleValidate.class)
     @Length(max = 255, message = "请限制在255个字符以内", groups = CitySimpleValidate.class)
     @Column(name = "CITY_NAME_EN", columnDefinition = "VARCHAR(255) NOT NULL COMMENT '名称（英文）'")
     private String cityNameEN;
 
+    @ApiModelProperty(value = "longitude", name = "经度")
     @Column(name = "LONGITUDE", precision = 10, scale = 7)
     private BigDecimal longitude;
 
+    @ApiModelProperty(value = "latitude", name = "纬度")
     @Column(name = "LATITUDE", precision = 10, scale = 7)
     private BigDecimal latitude;
 
+    @ApiModelProperty(value = "elevation", name = "海拔")
     @Column(name = "ELEVATION", precision = 5)
     private Integer elevation;
 
     @JsonIgnoreProperties(value = {"location"})
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, targetEntity = NationDO.class)
     @JoinColumn(name = "NATION_ID")
+    @JoinTable
     private NationDO nationDO;
 
+    @ApiModelProperty(value = "cityDescription", name = "城市描述")
     @Length(max = 500, message = "请限制在500个字符以内", groups = CitySimpleValidate.class)
     @Column(name = "CITY_DESCRIPTION", length = 500)
     private String cityDescription;
 
-    @NotBlank(message = "请输入nationId", groups = CityDetailValidate.class)
     @Transient
     private String nationId;
 
@@ -155,11 +164,38 @@ public class CityDO {
         this.longitude = longitude;
         this.latitude = latitude;
         this.elevation = elevation;
-        this.nationDO = nationDO;
         this.cityDescription = cityDescription;
         this.nationId = nationId;
         this.pageSize = pageSize;
         this.pageNum = pageNum;
+        this.nationDO = nationDO;
+    }
+
+    /**
+     * 入参构造函数，针对请求
+     * @param cityNameCN
+     * @param cityNameEN
+     * @param longitude
+     * @param latitude
+     * @param elevation
+     * @param cityDescription
+     * @param nationId
+     * @param pageSize
+     * @param pageNum
+     */
+    public CityDO(@NotBlank(message = "城市名称（中文）不能为空", groups = CitySimpleValidate.class) @Length(max = 255, message = "请限制在255个字符以内", groups = CitySimpleValidate.class) String cityNameCN, @NotBlank(message = "城市名称（英文）不能为空", groups = CitySimpleValidate.class) @Length(max = 255, message = "请限制在255个字符以内", groups = CitySimpleValidate.class) String cityNameEN, BigDecimal longitude, BigDecimal latitude, Integer elevation, @Length(max = 500, message = "请限制在500个字符以内", groups = CitySimpleValidate.class) String cityDescription, @NotBlank(message = "请输入nationId", groups = CityDetailValidate.class) String nationId, int pageSize, int pageNum) {
+        this.cityNameCN = cityNameCN;
+        this.cityNameEN = cityNameEN;
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.elevation = elevation;
+        this.cityDescription = cityDescription;
+        this.nationId = nationId;
+        this.pageSize = pageSize;
+        this.pageNum = pageNum;
+        NationDO nation = new NationDO();
+        nation.setNationId(nationId);
+        this.nationDO = nation;
     }
 
     @JsonView(CitySimpleView.class)
