@@ -14,6 +14,7 @@ import java.util.Set;
  * Created by BNC on 2019/4/16.
  */
 @Entity
+//@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"})
 @Table(name = "BASIC_NATION")
 @org.hibernate.annotations.Table(appliesTo = "basic_nation", comment = "国家地区基本信息")
 public class NationDO {
@@ -33,8 +34,8 @@ public class NationDO {
     @Column(name = "LOCATION")
     private String location;
 
-//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "nationDO")
-//    private Set<CityDO> cities;
+    @OneToMany
+    private Set<CityDO> cityDOS;
 
     public NationDO() {
     }
@@ -45,20 +46,12 @@ public class NationDO {
         this.location = location;
     }
 
-//    public NationDO(String nationId, String nationNameCN, String nationNameEN, String location, Set<CityDO> cities) {
-//        this.nationId = nationId;
-//        this.nationNameCN = nationNameCN;
-//        this.nationNameEN = nationNameEN;
-//        this.location = location;
-//        this.cities = cities;
-//    }
-//
-//    public NationDO(String nationNameCN, String nationNameEN, String location, Set<CityDO> cities) {
-//        this.nationNameCN = nationNameCN;
-//        this.nationNameEN = nationNameEN;
-//        this.location = location;
-//        this.cities = cities;
-//    }
+    public NationDO(String nationNameCN, String nationNameEN, String location, Set<CityDO> cityDOS) {
+        this.nationNameCN = nationNameCN;
+        this.nationNameEN = nationNameEN;
+        this.location = location;
+        this.cityDOS = cityDOS;
+    }
 
     public String getNationId() {
         return nationId;
@@ -92,13 +85,13 @@ public class NationDO {
         this.location = location;
     }
 
-//    public Set<CityDO> getCities() {
-//        return cities;
-//    }
-//
-//    public void setCities(Set<CityDO> cities) {
-//        this.cities = cities;
-//    }
+    public Set<CityDO> getCityDOS() {
+        return cityDOS;
+    }
+
+    public void setCityDOS(Set<CityDO> cityDOS) {
+        this.cityDOS = cityDOS;
+    }
 
     @Override
     public String toString() {
@@ -107,7 +100,7 @@ public class NationDO {
                 ", nationNameCN='" + nationNameCN + '\'' +
                 ", nationNameEN='" + nationNameEN + '\'' +
                 ", location='" + location + '\'' +
-//                ", cities=" + cities +
+                ", cityDOS=" + cityDOS +
                 '}';
     }
 }

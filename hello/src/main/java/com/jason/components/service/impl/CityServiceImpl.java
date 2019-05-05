@@ -105,14 +105,14 @@ public class CityServiceImpl implements CityService {
         try {
             int page = 0;
             int size = 10;
-            int pageParam = cityDO.getPageNum();
-            int paramSize = cityDO.getPageSize();
-            if (pageParam > 0) {
-                page = pageParam - 1;
-            }
-            if (paramSize > 0) {
-                size = paramSize;
-            }
+//            int pageParam = cityDO.getPageNum();
+//            int paramSize = cityDO.getPageSize();
+//            if (pageParam > 0) {
+//                page = pageParam - 1;
+//            }
+//            if (paramSize > 0) {
+//                size = paramSize;
+//            }
             Pageable pageable = PageRequest.of(page, size);
             Example<CityDO> example = Example.of(cityDO);
             Page<CityDO> cities = cityRepository.findAll(example, pageable);

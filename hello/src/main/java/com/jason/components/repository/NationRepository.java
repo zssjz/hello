@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 /**
  * Created by BNC on 2019/4/16.
  */
-public interface NationRepository extends JpaRepository<NationDO, String>, JpaSpecificationExecutor {
+public interface NationRepository extends JpaRepository<NationDO, String> {
 }

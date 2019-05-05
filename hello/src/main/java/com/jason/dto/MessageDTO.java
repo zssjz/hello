@@ -22,6 +22,9 @@ public class MessageDTO {
 
     private Object object;
 
+    public MessageDTO() {
+    }
+
     public MessageDTO(int status, HttpStatus httpStatus, String info) {
         this.status = status;
         this.httpStatus = httpStatus;
@@ -39,13 +42,14 @@ public class MessageDTO {
         this.status = status;
         this.httpStatus = httpStatus;
         this.info = info;
-        Map<String, Object> map = new HashMap<>();
-        map.put("pageSize", page.getSize());
-        map.put("pageNum", page.getNumber());
-        map.put("total", page.getTotalElements());
-        map.put("totalPage", page.getTotalPages());
-        map.put("item", page.getContent());
-        this.object = map;
+//        Map<String, Object> map = new HashMap<>();
+//        map.put("pageSize", page.getSize());
+//        map.put("pageNum", page.getNumber());
+//        map.put("total", page.getTotalElements());
+//        map.put("totalPage", page.getTotalPages());
+//        map.put("item", page.getContent());
+//        this.object = map;
+        this.object = page;
     }
 
     public int getStatus() {

@@ -30,6 +30,20 @@ public class CityController {
     @Autowired
     private CityService cityService;
 
+    @PostMapping("/save")
+    public MessageDTO saveCity(CityDO cityDO) {
+        System.out.println(cityDO);
+        MessageDTO msg;
+        try {
+            msg = cityService.saveCity(cityDO);
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error(e.getMessage());
+            msg = new MessageDTO(0, HttpStatus.INTERNAL_SERVER_ERROR, "ERROR");
+        }
+        return msg;
+    }
+
     @GetMapping("/{cityId}/simpleInfo")
     public MessageDTO findCitySimpleInfo(@PathVariable String cityId) {
         if (cityId == null || "".equals(cityId)) {
