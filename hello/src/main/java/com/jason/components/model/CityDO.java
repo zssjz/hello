@@ -82,9 +82,8 @@ public class CityDO {
     private Integer elevation;
 
     @JsonIgnoreProperties(value = {"location"})
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, targetEntity = NationDO.class)
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "NATION_ID")
-    @JoinTable
     private NationDO nationDO;
 
     @ApiModelProperty(value = "cityDescription", name = "城市描述")

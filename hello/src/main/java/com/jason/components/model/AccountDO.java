@@ -13,63 +13,79 @@ import javax.validation.constraints.Size;
 /**
  * Created by BNC on 2019/4/30.
  */
-//@ApiModel(value = "账号基础信息")
-//@Validated
-//@Entity
-//@Table(name = "base_account")
-//@org.hibernate.annotations.Table(appliesTo = "base_account", comment = "账号基础信息表")
+@ApiModel(value = "账号基础信息")
+@Validated
+@Entity
+@Table(name = "basic_account")
+@org.hibernate.annotations.Table(appliesTo = "basic_account", comment = "账号基础信息表")
 public class AccountDO {
 
-    public interface accountSimpleView {};
+    public interface AccountSimpleView {};
 
-    public interface accountDetailView extends accountSimpleView {};
+    public interface AccountDetailView extends AccountSimpleView {};
 
     public interface accountCreateValidate {};
 
     public interface accountModifyValidate {};
 
-//    @NotEmpty(groups = accountModifyValidate.class)
-//    @ApiModelProperty(name = "accountId", value = "账号Id", hidden = true)
-//    @Id
-//    @GenericGenerator(name = "accountId", strategy = "uuid")
-//    @GeneratedValue(generator = "accountId")
-//    @OneToOne(mappedBy = "accountDO")
-//    @Column(name = "ACCOUNT_ID", length = 32)
+    @ApiModelProperty(name = "accountId", value = "账号Id", hidden = true)
+    @Id
+    @GenericGenerator(name = "idGenerator", strategy = "uuid")
+    @GeneratedValue(generator = "idGenerator")
+    @Column(name = "ACCOUNT_ID", length = 32)
     private String accountId;
 
-//    @NotEmpty(message = "用户名不能为空", groups = accountCreateValidate.class)
-//    @Size(min = 6, max = 30, message = "用户名长度不小于6位，不大于30位")
-//    @ApiModelProperty(name = "username", value = "账号", dataType = "String", required = true)
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "accountDO", fetch = FetchType.LAZY)
+    @JoinColumn(name = "USER_ID")
+    private UserDO userDO;
+
+    @NotEmpty(message = "用户名不能为空", groups = accountCreateValidate.class)
+    @Size(min = 6, max = 30, message = "用户名长度不小于6位，不大于30位")
+    @ApiModelProperty(name = "username", value = "账号", dataType = "String", required = true)
     private String username;
 
-//    @NotEmpty(message = "密码不能为空", groups = {accountModifyValidate.class, accountCreateValidate.class})
-//    @Size(min = 6, max = 30, message = "密码长度不少于6位，不大于30位")
-//    @ApiModelProperty(name = "password", value = "密码", dataType = "String", required = true)
+    @NotEmpty(message = "密码不能为空", groups = {accountModifyValidate.class, accountCreateValidate.class})
+    @Size(min = 6, max = 128, message = "密码加密失败")
+    @ApiModelProperty(name = "password", value = "密码", dataType = "String", required = true)
     private String password;
 
-//    @Column(name = "IS_ACCOUNT_EXPRIED")
-//    @ApiModelProperty(name = "isAccountNonExpired", value = "账号是否过期", hidden = true)
+    @Column(name = "IS_ACCOUNT_EXPIRED", columnDefinition = "CHAR(1) NOT NULL DEFAULT '1' COMMENT '账号 0：过期；1：未过期'")
+    @ApiModelProperty(name = "isAccountNonExpired", value = "账号是否过期", hidden = true)
     private Integer isAccountNonExpired;
 
-//    @Column(name = "IS_ACCOUNT_LOCKED")
-//    @ApiModelProperty(name = "isAccountNonLocked", value = "账号是否锁定", hidden = true)
+    @Column(name = "IS_ACCOUNT_LOCKED", columnDefinition = "CHAR(1) NOT NULL DEFAULT '1' COMMENT '账号 0：锁定；1：未锁定'")
+    @ApiModelProperty(name = "isAccountNonLocked", value = "账号是否锁定", hidden = true)
     private Integer isAccountNonLocked;
 
-//    @Column(name = "IS_CREDENTIALS_EXPRIED")
-//    @ApiModelProperty(name = "isCredentialsNonExpired", value = "密码是否过期", hidden = true)
+    @Column(name = "IS_CREDENTIALS_EXPIRED", columnDefinition = "CHAR(1) NOT NULL DEFAULT '1' COMMENT '密码 0：已过期；1：未过期'")
+    @ApiModelProperty(name = "isCredentialsNonExpired", value = "密码是否过期", hidden = true)
     private Integer isCredentialsNonExpired;
 
-//    @Column(name = "IS_ENABLE")
-//    @ApiModelProperty(name = "isEnabled", value = "账号是否可用", hidden = true)
+    @Column(name = "IS_ENABLE", columnDefinition = "CHAR(1) NOT NULL DEFAULT '1' COMMENT '账号 0：不可用；1：可用'")
+    @ApiModelProperty(name = "isEnabled", value = "账号是否可用", hidden = true)
     private Integer isEnabled;
 
-//    @Column(name = "IS_DELETE")
-//    @ApiModelProperty(name = "isDelete", value = "账号是否删除", hidden = true)
+    @Column(name = "IS_DELETE", columnDefinition = "CHAR(1) NOT NULL DEFAULT '1' COMMENT '账号 0：已删除；1：未删除'")
+    @ApiModelProperty(name = "isDelete", value = "账号是否删除", hidden = true)
     private Integer isDelete;
 
-//    @Column(name = "CREATE_TIMESTAMP")
-//    @ApiModelProperty(name = "createTimestamp", value = "创建时间")
+    @Column(name = "CREATE_TIMESTAMP", nullable = false)
+    @ApiModelProperty(name = "createTimestamp", value = "创建时间")
     private Long createTimestamp;
+
+    public AccountDO() {
+    }
+
+    public AccountDO(@NotEmpty(message = "用户名不能为空", groups = accountCreateValidate.class) @Size(min = 6, max = 30, message = "用户名长度不小于6位，不大于30位") String username, @NotEmpty(message = "密码不能为空", groups = {accountModifyValidate.class, accountCreateValidate.class}) String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public AccountDO(@NotEmpty(message = "用户名不能为空", groups = accountCreateValidate.class) @Size(min = 6, max = 30, message = "用户名长度不小于6位，不大于30位") String username, @NotEmpty(message = "密码不能为空", groups = {accountModifyValidate.class, accountCreateValidate.class}) String password, Long createTimestamp) {
+        this.username = username;
+        this.password = password;
+        this.createTimestamp = createTimestamp;
+    }
 
     public AccountDO(@NotEmpty(groups = accountModifyValidate.class) String accountId, @NotEmpty(message = "用户名不能为空", groups = accountCreateValidate.class) @Size(min = 6, max = 30, message = "账号长度不小于6位，不大于30位") String username, @NotEmpty(message = "密码不能为空", groups = {accountModifyValidate.class, accountCreateValidate.class}) @Size(min = 6, max = 30, message = "密码长度不少于6位，不大于30位") String password) {
         this.accountId = accountId;
@@ -89,7 +105,7 @@ public class AccountDO {
         this.createTimestamp = createTimestamp;
     }
 
-    @JsonView(accountDetailView.class)
+    @JsonView(AccountDetailView.class)
     public String getAccountId() {
         return accountId;
     }
@@ -98,7 +114,7 @@ public class AccountDO {
         this.accountId = accountId;
     }
 
-    @JsonView(accountSimpleView.class)
+    @JsonView(AccountSimpleView.class)
     public String getUsername() {
         return username;
     }
@@ -116,7 +132,7 @@ public class AccountDO {
         this.password = password;
     }
 
-    @JsonView(accountDetailView.class)
+    @JsonView(AccountDetailView.class)
     public Integer getIsAccountNonExpired() {
         return isAccountNonExpired;
     }
@@ -125,7 +141,7 @@ public class AccountDO {
         this.isAccountNonExpired = isAccountNonExpired;
     }
 
-    @JsonView(accountDetailView.class)
+    @JsonView(AccountDetailView.class)
     public Integer getIsAccountNonLocked() {
         return isAccountNonLocked;
     }
@@ -134,7 +150,7 @@ public class AccountDO {
         this.isAccountNonLocked = isAccountNonLocked;
     }
 
-    @JsonView(accountDetailView.class)
+    @JsonView(AccountDetailView.class)
     public Integer getIsCredentialsNonExpired() {
         return isCredentialsNonExpired;
     }
@@ -143,7 +159,7 @@ public class AccountDO {
         this.isCredentialsNonExpired = isCredentialsNonExpired;
     }
 
-    @JsonView(accountDetailView.class)
+    @JsonView(AccountDetailView.class)
     public Integer getIsEnabled() {
         return isEnabled;
     }
@@ -152,7 +168,7 @@ public class AccountDO {
         this.isEnabled = isEnabled;
     }
 
-    @JsonView(accountDetailView.class)
+    @JsonView(AccountDetailView.class)
     public Integer getIsDelete() {
         return isDelete;
     }
@@ -161,13 +177,21 @@ public class AccountDO {
         this.isDelete = isDelete;
     }
 
-    @JsonView(accountDetailView.class)
+    @JsonView(AccountDetailView.class)
     public Long getCreateTimestamp() {
         return createTimestamp;
     }
 
     public void setCreateTimestamp(Long createTimestamp) {
         this.createTimestamp = createTimestamp;
+    }
+
+    public UserDO getUserDO() {
+        return userDO;
+    }
+
+    public void setUserDO(UserDO userDO) {
+        this.userDO = userDO;
     }
 
     @Override
@@ -182,6 +206,7 @@ public class AccountDO {
                 ", isEnabled=" + isEnabled +
                 ", isDelete=" + isDelete +
                 ", createTimestamp=" + createTimestamp +
+                ", userDO=" + userDO +
                 '}';
     }
 }

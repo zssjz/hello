@@ -34,7 +34,8 @@ public class NationDO {
     @Column(name = "LOCATION")
     private String location;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "CITY_ID")
     private Set<CityDO> cityDOS;
 
     public NationDO() {

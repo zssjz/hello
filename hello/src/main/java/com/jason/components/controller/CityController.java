@@ -31,8 +31,16 @@ public class CityController {
     private CityService cityService;
 
     @PostMapping("/save")
-    public MessageDTO saveCity(CityDO cityDO) {
-        System.out.println(cityDO);
+    public MessageDTO saveCity(@Validated CityDO cityDO, BindingResult bindingResult) {
+//        if (bindingResult.hasErrors()) {
+//            StringBuffer stringBuffer = new StringBuffer();
+//            bindingResult.getAllErrors().forEach(error -> {
+//                FieldError fieldError = (FieldError) error;
+//                stringBuffer.append(fieldError.getDefaultMessage());
+//                logger.warn(fieldError.getDefaultMessage());
+//            });
+//            return new MessageDTO(0, HttpStatus.BAD_REQUEST, stringBuffer);
+//        }
         MessageDTO msg;
         try {
             msg = cityService.saveCity(cityDO);
@@ -60,15 +68,15 @@ public class CityController {
 
     @PostMapping("/list")
     public MessageDTO findCityList(@Validated CityDO cityDO, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            StringBuffer stringBuffer = new StringBuffer();
-            bindingResult.getAllErrors().forEach(error -> {
-                FieldError fieldError = (FieldError) error;
-                logger.warn(error.getDefaultMessage());
-                stringBuffer.append(error.getDefaultMessage());
-            });
-            return new MessageDTO(0, HttpStatus.BAD_REQUEST, new String(stringBuffer));
-        }
+//        if (bindingResult.hasErrors()) {
+//            StringBuffer stringBuffer = new StringBuffer();
+//            bindingResult.getAllErrors().forEach(error -> {
+//                FieldError fieldError = (FieldError) error;
+//                logger.warn(error.getDefaultMessage());
+//                stringBuffer.append(error.getDefaultMessage());
+//            });
+//            return new MessageDTO(0, HttpStatus.BAD_REQUEST, stringBuffer);
+//        }
         MessageDTO msg;
         try {
             msg = cityService.findCitiesInfo(cityDO);

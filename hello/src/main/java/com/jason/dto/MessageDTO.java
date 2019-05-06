@@ -31,6 +31,12 @@ public class MessageDTO {
         this.info = info;
     }
 
+    public MessageDTO(int status, HttpStatus httpStatus, StringBuffer info) {
+        this.status = status;
+        this.httpStatus = httpStatus;
+        this.info = new String(info);
+    }
+
     public MessageDTO(int status, HttpStatus httpStatus, String info, Object object) {
         this.status = status;
         this.httpStatus = httpStatus;
