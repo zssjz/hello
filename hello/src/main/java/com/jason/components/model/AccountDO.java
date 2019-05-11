@@ -4,9 +4,11 @@ import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.jpa.repository.*;
 import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
+import javax.persistence.Temporal;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
@@ -69,8 +71,9 @@ public class AccountDO {
     @ApiModelProperty(name = "isDelete", value = "账号是否删除", hidden = true)
     private Integer isDelete;
 
-    @Column(name = "CREATE_TIMESTAMP", nullable = false)
     @ApiModelProperty(name = "createTimestamp", value = "创建时间")
+    @Column(name = "CREATE_TIMESTAMP", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
     private Long createTimestamp;
 
     public AccountDO() {
