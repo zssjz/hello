@@ -26,14 +26,12 @@ public class NationServiceImpl implements NationService {
 
     @Override
     public MessageDTO saveNation(NationDO nationDO) {
-        MessageDTO msg;
         try {
             NationDO result = nationRepository.save(nationDO);
-            msg = new MessageDTO(1, HttpStatus.OK, "OK", result);
+            return new MessageDTO(1, HttpStatus.OK, "OK", result);
         } catch (Exception e) {
-            msg = new MessageDTO(0, HttpStatus.INTERNAL_SERVER_ERROR, "ERROR");
+            return new MessageDTO(0, HttpStatus.INTERNAL_SERVER_ERROR, "ERROR");
         }
-        return msg;
     }
 
     /**
@@ -43,16 +41,14 @@ public class NationServiceImpl implements NationService {
      */
     @Override
     public MessageDTO queryNation(String nationId) {
-        MessageDTO msg;
         try {
             // getOne是返回一个实体的引用——代理对象，findOne是返回实体。
 //            NationDO nationDO = nationRepository.getOne(nationId);
             Optional<NationDO> nationDO = nationRepository.findById(nationId);
-            msg = new MessageDTO(1, HttpStatus.OK, "OK", nationDO);
+            return new MessageDTO(1, HttpStatus.OK, "OK", nationDO);
         } catch (Exception e) {
             logger.error(e.getMessage());
-            msg = new MessageDTO(0, HttpStatus.INTERNAL_SERVER_ERROR, "ERROR");
+            return new MessageDTO(0, HttpStatus.INTERNAL_SERVER_ERROR, "ERROR");
         }
-        return msg;
     }
 }

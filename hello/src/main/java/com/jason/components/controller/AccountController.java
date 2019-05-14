@@ -2,6 +2,7 @@ package com.jason.components.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.jason.components.model.AccountDO;
+import com.jason.components.model.dto.UserDTO;
 import com.jason.components.service.AccountService;
 import com.jason.dto.MessageDTO;
 import org.slf4j.Logger;
@@ -27,9 +28,9 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
 
-    @JsonView(AccountDO.AccountDetailView.class)
+//    @JsonView(AccountDO.AccountDetailView.class)
     @PostMapping("/register")
-    private MessageDTO registerAccount(@Validated AccountDO accountDO, BindingResult bindingResult) {
+    private MessageDTO registerAccount(@Validated UserDTO userDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             StringBuffer stringBuffer = new StringBuffer();
             bindingResult.getAllErrors().forEach(error -> {
@@ -41,7 +42,7 @@ public class AccountController {
         }
         MessageDTO msg;
         try {
-            msg = accountService.saveAccount(accountDO);
+            msg = accountService.saveAccount(userDTO);
         } catch (Exception e) {
             msg = new MessageDTO(0, HttpStatus.INTERNAL_SERVER_ERROR, "ERROR");
         }

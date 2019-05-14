@@ -1,7 +1,9 @@
 package com.jason.components.service;
 
 import com.jason.components.model.AccountDO;
+import com.jason.components.model.dto.UserDTO;
 import com.jason.dto.MessageDTO;
+import org.springframework.data.domain.Pageable;
 
 /**
  * Created by BNC on 2019/5/6.
@@ -9,14 +11,14 @@ import com.jason.dto.MessageDTO;
 public interface AccountService {
 
     /**
-     * 注册账号/修改账号
-     * @param accountDO
+     * 注册账号/设置账号
+     * @param userDTO
      * @return
      */
-    MessageDTO saveAccount(AccountDO accountDO);
+    MessageDTO saveAccount(UserDTO userDTO);
 
     /**
-     * 主动删除账号
+     * 主动删除账号（实际情况为修改账号删除标识）
      * @param accountId
      * @return
      */
