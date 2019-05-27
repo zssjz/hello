@@ -11,6 +11,10 @@ public class UserDTO {
 
     private String nickname;
 
+    private int pageSize;
+
+    private int pageNum;
+
     public UserDTO() {
     }
 

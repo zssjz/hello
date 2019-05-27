@@ -7,6 +7,7 @@ import org.hibernate.annotations.Parameter;
 import javax.persistence.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import java.io.Serializable;
 
 /**
  * Created by BNC on 2019/4/30.
@@ -17,14 +18,14 @@ import javax.persistence.Entity;
 public class UserDO {
 
     @Id
-    @GenericGenerator(name = "idGenerator", strategy = "foreign", parameters = @Parameter(name = "property", value = "accountDO"))
+    @GenericGenerator(name = "idGenerator", strategy = "uuid")
     @GeneratedValue(generator = "idGenerator")
     @Column(name = "USER_ID", length = 32)
     private String userId;
 
     @JsonIgnoreProperties(value = {"password"})
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "userDO", fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "ACCOUNT_ID")
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "userDO", optional = false)
+//    @JoinColumn(name = "USER_ID")
     @PrimaryKeyJoinColumn
     private AccountDO accountDO;
 
@@ -55,6 +56,7 @@ public class UserDO {
     public void setUserId(String userId) {
         this.userId = userId;
     }
+
 
     public String getNickname() {
         return nickname;

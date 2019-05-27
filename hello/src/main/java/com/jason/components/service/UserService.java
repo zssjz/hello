@@ -2,6 +2,7 @@ package com.jason.components.service;
 
 import com.jason.components.model.AccountDO;
 import com.jason.components.model.UserDO;
+import com.jason.components.model.dto.UserDTO;
 import com.jason.dto.MessageDTO;
 
 /**
@@ -11,10 +12,10 @@ public interface UserService {
 
     /**
      * 补充/修改用户信息
-     * @param userDO
+     * @param userDTO
      * @return
      */
-   MessageDTO saveUser(UserDO userDO);
+   MessageDTO saveUser(UserDTO userDTO);
 
     /**
      * 通过id获取用户基本信息

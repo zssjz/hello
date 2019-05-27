@@ -1,11 +1,13 @@
 package com.jason.components.model;
 
 import org.hibernate.annotations.*;
+import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 /**
  * Created by BNC on 2019/4/30.
@@ -16,13 +18,13 @@ import javax.persistence.Table;
 public class AccountDO {
 
     @Id
-    @GenericGenerator(name = "idGenerator", strategy = "uuid")
+    @GenericGenerator(name = "idGenerator", strategy = "foreign", parameters = @Parameter(name = "property", value = "userDO"))
     @GeneratedValue(generator = "idGenerator")
-    @Column(name = "ACCOUNT_ID")
-    private String accountId;
+    @Column(name = "USER_ID")
+    private String userId;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "USER_ID")
+//    @JoinColumn(name = "USER_ID")
     @PrimaryKeyJoinColumn
     private UserDO userDO;
 
@@ -44,6 +46,14 @@ public class AccountDO {
         this.userDO = userDO;
         this.username = username;
         this.password = password;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public UserDO getUserDO() {

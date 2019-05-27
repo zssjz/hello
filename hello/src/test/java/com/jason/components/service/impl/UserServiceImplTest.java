@@ -3,6 +3,7 @@ package com.jason.components.service.impl;
 import com.jason.HelloApplication;
 import com.jason.components.model.AccountDO;
 import com.jason.components.model.UserDO;
+import com.jason.components.model.dto.UserDTO;
 import com.jason.components.service.AccountService;
 import com.jason.components.service.UserService;
 import com.jason.dto.MessageDTO;
@@ -29,12 +30,8 @@ public class UserServiceImplTest {
 
     @Test
     public void saveUser() throws Exception {
-//        AccountDO accountDO = new AccountDO("123456", "654321");
-//        UserDO userDO = new UserDO();
-//        userDO.setAccountDO(accountDO);
-//        userDO.setNickname("Test");
-//        MessageDTO msg = userService.saveUser(userDO);
-//        System.out.println(msg);
+        MessageDTO msg = userService.saveUser(new UserDTO("123456", "654321", "test"));
+        System.out.println(msg);
     }
 
     @Test
