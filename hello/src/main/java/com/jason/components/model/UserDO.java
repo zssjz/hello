@@ -1,5 +1,7 @@
 package com.jason.components.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.*;
 import org.hibernate.annotations.Parameter;
@@ -15,6 +17,7 @@ import java.io.Serializable;
 @Entity
 @javax.persistence.Table(name = "basic_user")
 @org.hibernate.annotations.Table(appliesTo = "basic_user", comment = "用户基础信息")
+@NamedEntityGraph(name = "UserDO.detail", attributeNodes = @NamedAttributeNode("accountDO"))
 public class UserDO {
 
     @Id
@@ -24,8 +27,7 @@ public class UserDO {
     private String userId;
 
     @JsonIgnoreProperties(value = {"password"})
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "userDO", optional = false)
-//    @JoinColumn(name = "USER_ID")
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "userDO", fetch = FetchType.LAZY, optional = false, orphanRemoval = true)
     @PrimaryKeyJoinColumn
     private AccountDO accountDO;
 
@@ -72,5 +74,14 @@ public class UserDO {
 
     public void setAccountDO(AccountDO accountDO) {
         this.accountDO = accountDO;
+    }
+
+    @Override
+    public String toString() {
+        return "UserDO{" +
+                "userId='" + userId + '\'' +
+                ", accountDO=" + accountDO +
+                ", nickname='" + nickname + '\'' +
+                '}';
     }
 }

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -41,24 +42,51 @@ public class UserServiceImpl implements UserService {
             return new MessageDTO(1, HttpStatus.OK, "OK", user);
         } catch (Exception e) {
             logger.error(e.getMessage());
-            e.printStackTrace();
             return new MessageDTO(0, HttpStatus.INTERNAL_SERVER_ERROR, "ERROR");
         }
     }
 
+    @Transactional(readOnly = true)
     @Override
-    public MessageDTO findUserInfo(String accountId) {
-        return null;
+    public MessageDTO findUserInfo(String userId) {
+        try {
+            if (userRepository.existsById(userId)) {
+                Optional<UserDO> optional = userRepository.findById(userId);
+                return new MessageDTO(1, HttpStatus.OK, "OK", optional);
+            } else {
+                return new MessageDTO(0, HttpStatus.NOT_FOUND, "NOT FOUND");
+            }
+        } catch (Exception e) {
+            return new MessageDTO(0, HttpStatus.INTERNAL_SERVER_ERROR, "ERROR");
+        }
     }
 
+    @Transactional(readOnly = true)
     @Override
-    public MessageDTO findUserDetail(String accountId) {
+    public MessageDTO findUserDetail(String userId) {
         try {
-            UserDO userDO = new UserDO();
-//            userDO.setUserId(accountId);
-            Example<UserDO> example = Example.of(userDO);
-            Optional option = userRepository.findOne(example);
-            return new MessageDTO(1, HttpStatus.OK, "OK", option);
+            if (userRepository.existsById(userId)) {
+                UserDO userDO = userRepository.getByUserId(userId);
+                return new MessageDTO(1, HttpStatus.OK, "OK", userDO);
+            } else {
+                return new MessageDTO(0, HttpStatus.NOT_FOUND, "NOT FOUND");
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return new MessageDTO(0, HttpStatus.INTERNAL_SERVER_ERROR, "ERROR");
+        }
+    }
+
+    @Transactional
+    @Override
+    public MessageDTO deleteUser(String userId) {
+        try {
+            if (userRepository.existsById(userId)) {
+                userRepository.deleteById(userId);
+                return new MessageDTO(1, HttpStatus.OK, "OK");
+            } else {
+                return new MessageDTO(0, HttpStatus.NOT_FOUND, "NOT FOUND");
+            }
         } catch (Exception e) {
             logger.error(e.getMessage());
             return new MessageDTO(0, HttpStatus.INTERNAL_SERVER_ERROR, "ERROR");

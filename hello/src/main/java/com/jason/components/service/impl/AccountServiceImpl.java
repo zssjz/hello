@@ -36,7 +36,7 @@ public class AccountServiceImpl implements AccountService {
             UserDO userDO = new UserDO();
             userDO.setNickname(userDTO.getNickname());
             userDO.setAccountDO(accountDO);
-            accountDO.setUserDO(userDO);
+//            accountDO.setUserDO(userDO);
             AccountDO account = accountRepository.save(accountDO);
             return new MessageDTO(1, HttpStatus.OK, "OK", account);
         } catch (Exception e) {

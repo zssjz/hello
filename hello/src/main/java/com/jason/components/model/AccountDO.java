@@ -1,5 +1,6 @@
 package com.jason.components.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.*;
 import org.hibernate.annotations.Parameter;
 
@@ -7,7 +8,6 @@ import javax.persistence.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import java.io.Serializable;
 
 /**
  * Created by BNC on 2019/4/30.
@@ -15,6 +15,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "basic_account")
 @org.hibernate.annotations.Table(appliesTo = "basic_account", comment = "账号基础信息表")
+@NamedEntityGraph(name = "AccountDO.detail", attributeNodes = @NamedAttributeNode("userDO"))
 public class AccountDO {
 
     @Id
@@ -24,7 +25,6 @@ public class AccountDO {
     private String userId;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
-//    @JoinColumn(name = "USER_ID")
     @PrimaryKeyJoinColumn
     private UserDO userDO;
 

@@ -36,10 +36,21 @@ public class UserServiceImplTest {
 
     @Test
     public void findUserInfo() throws Exception {
+        MessageDTO msg = userService.findUserInfo("2c90c0646b0677f6016b0678103c0000");
+        System.out.println(msg);
     }
 
     @Test
     public void findUserDetail() throws Exception {
+        MessageDTO msg = userService.findUserDetail("2c90c0646b0677f6016b0678103c0000");
+        System.out.println(msg);
     }
+
+    @Test
+    public void deleteUser() throws Exception {
+        MessageDTO msg = userService.deleteUser("2c90c0646af74ab2016af74aca500000");
+        System.out.println(msg);
+    }
+
 
 }

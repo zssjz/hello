@@ -19,16 +19,23 @@ public interface UserService {
 
     /**
      * 通过id获取用户基本信息
-     * @param accountId
+     * @param userId
      * @return
      */
-   MessageDTO findUserInfo(String accountId);
+   MessageDTO findUserInfo(String userId);
 
     /**
      * 通过ID获取用户所有信息
-     * @param accountId
+     * @param userId
      * @return
      */
-   MessageDTO findUserDetail(String accountId);
+   MessageDTO findUserDetail(String userId);
+
+    /**
+     * 删除用户
+     * @param userId
+     * @return
+     */
+   MessageDTO deleteUser(String userId);
 
 }
