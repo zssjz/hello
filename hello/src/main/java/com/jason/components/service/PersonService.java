@@ -14,4 +14,11 @@ public interface PersonService {
      * @return
      */
     MessageDTO savePerson(PersonDO personDO);
+
+    /**
+     *
+     * @param personId
+     * @return
+     */
+    MessageDTO queryPerson(String personId);
 }

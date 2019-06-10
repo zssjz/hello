@@ -27,8 +27,18 @@ public class PersonServiceImplTest {
     public void savePerson() throws Exception {
         PersonDO personDO = new PersonDO();
         personDO.setName("jason");
-        personDO.setAddressDO(new AddressDO("12345679", "beijing"));
+
+        AddressDO addressDO = new AddressDO();
+        addressDO.setPersonDO(personDO);
+        addressDO.setAddress("beijing");
+        personDO.setAddressDO(addressDO);
         MessageDTO msg = personService.savePerson(personDO);
+        System.out.println(msg);
+    }
+
+    @Test
+    public void findPerson() throws Exception {
+        MessageDTO msg = personService.queryPerson("2c90c0646b3c9534016b3c9551be0000");
         System.out.println(msg);
     }
 

@@ -13,13 +13,18 @@ import javax.persistence.*;
 public class AddressDO {
 
     @Id
-    @GeneratedValue()
-//    @GenericGenerator(name = "idGenerator", strategy = "uuid")
-//    @GeneratedValue(generator = "idGenerator")
+    @GenericGenerator(name = "idGenerator", strategy = "uuid")
+    @GeneratedValue(generator = "idGenerator")
     @Column(name = "ADDRESS_ID")
     private String addressId;
 
     private String address;
+
+    @OneToOne(mappedBy = "addressDO")
+    private PersonDO personDO;
+
+    public AddressDO() {
+    }
 
     public AddressDO(String addressId, String address) {
         this.address = address;
@@ -28,6 +33,14 @@ public class AddressDO {
 
     public AddressDO(String address) {
         this.address = address;
+    }
+
+    public PersonDO getPersonDO() {
+        return personDO;
+    }
+
+    public void setPersonDO(PersonDO personDO) {
+        this.personDO = personDO;
     }
 
     public String getAddressId() {

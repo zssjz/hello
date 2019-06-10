@@ -18,7 +18,7 @@ public class PersonDO {
 
     private String name;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "ADDRESS_ID")
     private AddressDO addressDO;
 
@@ -52,5 +52,13 @@ public class PersonDO {
 
     public void setAddressDO(AddressDO addressDO) {
         this.addressDO = addressDO;
+    }
+
+    @Override
+    public String toString() {
+        return "PersonDO{" +
+                "personId='" + personId + '\'' +
+                ", name='" + name + '\'' +
+                '}';
     }
 }
